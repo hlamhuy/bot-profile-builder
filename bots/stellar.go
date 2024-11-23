@@ -1,11 +1,11 @@
 package bots
 
 import (
-	"fmt"
-	"strings"
-	"os"
 	"encoding/csv"
 	"encoding/json"
+	"fmt"
+	"os"
+	"strings"
 )
 
 type StellarProfile struct {
@@ -29,10 +29,10 @@ type StellarCard struct {
 type StellarAddress struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
-	Address1  string `json:"address1"`
+	Address1  string `json:"address"`
 	Address2  string `json:"address2"`
 	City      string `json:"city"`
-	Zip       string `json:"zip"`
+	Zip       string `json:"zipcode"`
 	Country   string `json:"country"`
 	State     string `json:"state"`
 }
@@ -111,7 +111,12 @@ func createStellarProfile(row []string) StellarProfile {
 		},
 		Card: StellarCard{
 			Name: row[3] + " " + row[4],
-			Type: row[11],
+			Type: func(cardType string) string {
+				if cardType == "AmericanExpress" {
+					return "Amex"
+				}
+				return cardType
+			}(row[11]),
 			Number:   row[12],
 			ExpMonth: row[13],
 			ExpYear:  row[14],
