@@ -119,7 +119,7 @@ func createStellarProfile(row []string) StellarProfile {
 			}(row[11]),
 			Number:   row[12],
 			ExpMonth: row[13],
-			ExpYear:  row[14],
+			ExpYear:  row[14][2:],
 			Cvv:      row[15],
 		},
 	}
